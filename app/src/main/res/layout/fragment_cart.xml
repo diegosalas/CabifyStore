@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+  <variable
+    name="viewModel"
+    type="com.cabify.cabistore.ui.cart.CartViewModel" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+      android:id="@+id/tvString"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="156dp"
+      android:text="@{viewModel.sales.toString()}"
+      android:textColor="@color/white"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.426"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/payment_source"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="230dp"
+      android:drawableStart="@drawable/ic_material_credit_card"
+      android:drawablePadding="10dp"
+      android:drawableTint="@color/white"
+      android:padding="@dimen/activity_padding"
+      android:text="@string/add_payment_method"
+      android:textAppearance="@android:style/TextAppearance"
+      android:textColor="@color/white"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tvString"
+      tools:targetApi="m" />
+
+    <androidx.appcompat.widget.AppCompatButton
+      android:id="@+id/btn_confirm_payment"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="32dp"
+      android:layout_marginEnd="8dp"
+      android:text="Pay"
+      android:textAlignment="center"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/payment_source" />
+
+    <ListView
+      android:id="@+id/listView"
+      android:layout_width="409dp"
+      android:layout_height="225dp"
+      android:layout_marginStart="1dp"
+      android:layout_marginTop="1dp"
+      android:layout_marginEnd="1dp"
+      android:layout_marginBottom="1dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btn_confirm_payment" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
