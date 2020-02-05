@@ -13,7 +13,7 @@ class CartViewModel(val database: StoreDatabaseDao, application: Application): A
   var sales = database.getAllProducts()
 
 
-  private val _properties = database.getAllProducts()
+  private val _properties = database.getAllSales()
   val properties: LiveData<List<SaleDetail>>
     get() = _properties
 
