@@ -1,15 +1,26 @@
 package com.cabify.cabistore.ui.global
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.cabify.cabistore.api.ApiUtils
+import com.cabify.cabistore.database.Products
+
 import com.cabify.cabistore.database.SaleDetail
 import com.cabify.cabistore.database.StoreDatabaseDao
+
+
+
 import kotlinx.coroutines.*
-import org.json.JSONArray
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import kotlin.math.ceil
+
 
 class GlobalViewModel(val database: StoreDatabaseDao, application: Application) : AndroidViewModel(application) {
 
@@ -17,6 +28,7 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
   private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
   private val _total = MutableLiveData(database.getTotal())
   val total: MutableLiveData<LiveData<Double>> = _total
+  private val tag = GlobalViewModel::class.java.simpleName
 
   val products = database.getAllProducts()
 
@@ -86,21 +98,33 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
 
     try {
 
-      val jsonArr = JSONArray("""[{"products":[
-                                           {"code":"VOUCHER","name":"Cabify Voucher","price":5},
-                                           {"code":"TSHIRT","name":"Cabify T-Shirt","price":20},
-                                           {"code":"MUG","name":"Cabify Coffee Mug","price":7.5}
-                                            ]}]""")
-      val jsonObjc = jsonArr.getJSONObject(0)
-      val accountJson = jsonObjc.getJSONArray("products")
-      for (i in 0 until accountJson.length()) {
-        val code: String = accountJson.getJSONObject(i).getString("code")
-        val name = accountJson.getJSONObject(i).getString("name")
-        val price = accountJson.getJSONObject(i).getDouble("price")
-        addItem(code, name, price, 0)
 
-      }
+      ApiUtils.apiService.readItems().enqueue(object : Callback <Products> {
+
+        override fun onResponse(call: Call<Products>, response: Response<Products>) {
+          if (response.isSuccessful) {
+
+            for (i in 0 until response.body()!!.products.size) {
+              val code: String = response.body()!!.products[i].code
+              val name = response.body()!!.products[i].name
+              val price = response.body()!!.products[i].price
+              addItem(code, name, price, 0)
+           }
+
+          }
+        }
+
+
+        override fun onFailure(call: Call<Products>, t: Throwable) {
+          Log.e(tag,  t.localizedMessage!!)
+        }
+
+
+
+      })
+
     } catch (e: IOException) {
+      Log.e(tag,  e.localizedMessage!!)
     }
 
   }
