@@ -119,7 +119,7 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
             /*
 
             Fill with our basic products if the customer opens the App for first time without Internet Connection
-          
+
             */
             val jsonArr = JSONArray("""[{"products":[
                                            {"code":"VOUCHER","name":"Cabify Voucher","price":5},
