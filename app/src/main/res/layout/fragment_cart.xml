@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+  xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
+>
 
   <data>
   <variable
@@ -15,21 +16,61 @@
 
     <TextView
       android:id="@+id/tvString"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="156dp"
-      android:text="@{viewModel.sales.toString()}"
-      android:textColor="@color/white"
+      android:background="@color/surfaceGray"
+      android:gravity="end"
+      android:text="@{viewModel.total.toString()}"
+      android:textColor="@android:color/black"
+      android:visibility="visible"
+      app:layout_constraintEnd_toStartOf="@+id/tvString2"
+      app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+    <TextView
+      android:id="@+id/tvString3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@color/surfaceGray"
+      android:gravity="end"
+      android:text="SubTotal:    "
+      android:textColor="@android:color/black"
+      android:visibility="visible"
+      app:layout_constraintEnd_toStartOf="@+id/tvString"
+      app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+    <TextView
+      android:id="@+id/tvString2"
+      android:layout_width="8dp"
+      android:layout_height="0dp"
+      android:layout_marginEnd="16dp"
+      android:background="@color/surfaceGray"
+      android:gravity="end"
+      android:text="€"
+      android:textColor="@android:color/black"
+      android:visibility="visible"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.426"
+      app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recyclerView"
+      android:layout_width="328dp"
+      android:layout_height="0dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="230dp"
+      android:layout_marginEnd="8dp"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintTop_toTopOf="parent"
+      app:listData="@{viewModel.properties}" />
 
     <androidx.appcompat.widget.AppCompatTextView
       android:id="@+id/payment_source"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="230dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="30dp"
+      android:layout_marginEnd="8dp"
       android:drawableStart="@drawable/ic_material_credit_card"
       android:drawablePadding="10dp"
       android:drawableTint="@color/white"
@@ -39,8 +80,7 @@
       android:textColor="@color/white"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/tvString"
-      tools:targetApi="m" />
+      app:layout_constraintTop_toBottomOf="@+id/tvString" />
 
     <androidx.appcompat.widget.AppCompatButton
       android:id="@+id/btn_confirm_payment"
@@ -50,24 +90,12 @@
       android:layout_marginStart="8dp"
       android:layout_marginTop="32dp"
       android:layout_marginEnd="8dp"
-      android:text="Pay"
+      android:text="PAY"
       android:textAlignment="center"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/payment_source" />
 
-    <ListView
-      android:id="@+id/listView"
-      android:layout_width="409dp"
-      android:layout_height="225dp"
-      android:layout_marginStart="1dp"
-      android:layout_marginTop="1dp"
-      android:layout_marginEnd="1dp"
-      android:layout_marginBottom="1dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/btn_confirm_payment" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
