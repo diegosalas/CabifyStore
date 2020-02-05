@@ -36,11 +36,11 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
         database.insertItem(item)
 
       } else {
-
+        if (item.quantity != 0) {
           database.updateQuantityStr(item.code, item.quantity)
           discountBuyTwoGetOne(item.code, item.quantity)
           discountBuyThree(item.code, item.quantity)
-        
+        }
       }
     }
   }
