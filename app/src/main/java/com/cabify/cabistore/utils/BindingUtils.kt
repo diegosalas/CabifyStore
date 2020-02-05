@@ -1,6 +1,9 @@
 package com.cabify.cabistore.utils
 
 import android.annotation.SuppressLint
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -52,4 +55,14 @@ fun TextView.setProductQty(item: SaleDetail?){
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<SaleDetail>?) {
   val adapter = recyclerView.adapter as CartAdapter
   adapter.submitList(data)
+}
+
+@BindingAdapter("hideQtyButtons")
+fun ImageView.hideQtyButtons(item: SaleDetail?){
+  item?.let{
+    if(item.price < 0 && item.quantity == 0){
+
+      visibility = View.INVISIBLE
+    }
+  }
 }
