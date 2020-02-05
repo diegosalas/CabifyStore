@@ -63,8 +63,11 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
   }
 
   private fun discountBuyTwoGetOne(code: String, quantity: Int){
-    if(code =="VOUCHER" && quantity == 1){
+
+
+    if(code =="VOUCHER" && quantity <= 1) {
       database.deleteItem("DISCOUNT")
+ 
     }else if(code =="VOUCHER" && quantity >= 2){
       val decimal = (ceil(x = (quantity / 2).toDouble())).toInt()
       addItem("DISCOUNT","2X1 Discount on Voucher", -5.00, decimal )
@@ -108,7 +111,8 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
               val code: String = response.body()!!.products[i].code
               val name = response.body()!!.products[i].name
               val price = response.body()!!.products[i].price
-              addItem(code, name, price, 0)
+
+                  addItem(code, name, price, 0)
            }
 
           }
