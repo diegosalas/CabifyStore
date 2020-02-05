@@ -12,6 +12,7 @@ import com.cabify.cabistore.database.SaleDetail
 import com.cabify.cabistore.database.StoreDatabaseDao
 
 import kotlinx.coroutines.*
+import org.json.JSONArray
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -114,6 +115,28 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
 
         override fun onFailure(call: Call<Products>, t: Throwable) {
           Log.e(tag, t.localizedMessage!!)
+          try {
+            /*
+
+            Fill with our basic products if the customer opens the App for first time without Internet Connection
+          
+            */
+            val jsonArr = JSONArray("""[{"products":[
+                                           {"code":"VOUCHER","name":"Cabify Voucher","price":5},
+                                           {"code":"TSHIRT","name":"Cabify T-Shirt","price":20},
+                                           {"code":"MUG","name":"Cabify Coffee Mug","price":7.5}
+                                            ]}]""")
+            val jsonObjc = jsonArr.getJSONObject(0)
+            val accountJson = jsonObjc.getJSONArray("products")
+            for (i in 0 until accountJson.length()) {
+              val code: String = accountJson.getJSONObject(i).getString("code")
+              val name = accountJson.getJSONObject(i).getString("name")
+              val price = accountJson.getJSONObject(i).getDouble("price")
+              addItem(code, name, price, 0)
+
+            }
+          } catch (e: IOException) {
+          }
         }
 
       })
