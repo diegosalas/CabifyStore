@@ -11,8 +11,6 @@ import com.cabify.cabistore.database.Products
 import com.cabify.cabistore.database.SaleDetail
 import com.cabify.cabistore.database.StoreDatabaseDao
 
-
-
 import kotlinx.coroutines.*
 
 import retrofit2.Call
@@ -20,7 +18,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 import kotlin.math.ceil
-
 
 class GlobalViewModel(val database: StoreDatabaseDao, application: Application) : AndroidViewModel(application) {
 
@@ -36,14 +33,14 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
     withContext(Dispatchers.IO) {
       if (database.get(item.code) == 0) {
 
-
         database.insertItem(item)
 
       } else {
-
-        database.updateQuantityStr(item.code, item.quantity)
-        discountBuyTwoGetOne(item.code, item.quantity)
-        discountBuyThree(item.code, item.quantity)
+        if (item.quantity != 0) {
+          database.updateQuantityStr(item.code, item.quantity)
+          discountBuyTwoGetOne(item.code, item.quantity)
+          discountBuyThree(item.code, item.quantity)
+        }
       }
     }
   }
@@ -52,8 +49,7 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
     withContext(Dispatchers.IO) {
 
       if (database.get(code) > 0) {
-        if( quantity>= 0)
-          database.updateQuantityStr(code, quantity)
+        if (quantity >= 0) database.updateQuantityStr(code, quantity)
         discountBuyTwoGetOne(code, quantity)
         discountBuyThree(code, quantity)
       }
@@ -62,22 +58,21 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
 
   }
 
-  private fun discountBuyTwoGetOne(code: String, quantity: Int){
+  private fun discountBuyTwoGetOne(code: String, quantity: Int) {
 
-
-    if(code =="VOUCHER" && quantity <= 1) {
+    if (code == "VOUCHER" && quantity <= 1) {
       database.deleteItem("DISCOUNT")
- 
-    }else if(code =="VOUCHER" && quantity >= 2){
+
+    } else if (code == "VOUCHER" && quantity >= 2) {
       val decimal = (ceil(x = (quantity / 2).toDouble())).toInt()
-      addItem("DISCOUNT","2X1 Discount on Voucher", -5.00, decimal )
+      addItem("DISCOUNT", "2X1 Discount on Voucher", -5.00, decimal)
     }
   }
 
-  private fun discountBuyThree(code: String, quantity: Int){
-    if(code =="TSHIRT" && quantity < 3){
+  private fun discountBuyThree(code: String, quantity: Int) {
+    if (code == "TSHIRT" && quantity < 3) {
       database.updatePrice(code, 20.00)
-    }else if(code =="TSHIRT" && quantity >= 3){
+    } else if (code == "TSHIRT" && quantity >= 3) {
       database.updatePrice(code, 19.00)
     }
   }
@@ -101,8 +96,7 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
 
     try {
 
-
-      ApiUtils.apiService.readItems().enqueue(object : Callback <Products> {
+      ApiUtils.apiService.readItems().enqueue(object : Callback<Products> {
 
         override fun onResponse(call: Call<Products>, response: Response<Products>) {
           if (response.isSuccessful) {
@@ -112,23 +106,20 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
               val name = response.body()!!.products[i].name
               val price = response.body()!!.products[i].price
 
-                  addItem(code, name, price, 0)
-           }
+              addItem(code, name, price, 0)
+            }
 
           }
         }
 
-
         override fun onFailure(call: Call<Products>, t: Throwable) {
-          Log.e(tag,  t.localizedMessage!!)
+          Log.e(tag, t.localizedMessage!!)
         }
-
-
 
       })
 
     } catch (e: IOException) {
-      Log.e(tag,  e.localizedMessage!!)
+      Log.e(tag, e.localizedMessage!!)
     }
 
   }
