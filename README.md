@@ -1,2 +1,2 @@
-# CabiStore
+# Store
  
