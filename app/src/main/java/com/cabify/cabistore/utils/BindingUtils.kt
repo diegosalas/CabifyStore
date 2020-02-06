@@ -57,13 +57,3 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<SaleDetail>?) {
   adapter.submitList(data)
 }
 
-@BindingAdapter("hideQtyButtons")
-fun ImageView.hideQtyButtons(item: SaleDetail?){
-//  Disable this binding adapter if you want to disable addButton and removeButton from DISCOUNT article.
-  
-//  item?.let{
-//    if (item.name == "DISCOUNT") {
-//      visibility = View.INVISIBLE
-//    }
-//  }
-}

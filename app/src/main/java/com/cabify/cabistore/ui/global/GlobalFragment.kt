@@ -20,6 +20,7 @@ import com.cabify.cabistore.R
 import com.cabify.cabistore.database.StoreDatabase
 import com.cabify.cabistore.databinding.FragmentGlobalBinding
 
+
 class GlobalFragment : Fragment() {
 
   private lateinit var binding: FragmentGlobalBinding
@@ -59,6 +60,7 @@ class GlobalFragment : Fragment() {
       },AddListener { code, name, price, quantity ->
         val q = quantity + 1
         viewModel.addItem(code, name, price, q)
+
       },RemoveListener  { code, quantity ->
         val q = quantity - 1
         viewModel.removeItem(code, q)

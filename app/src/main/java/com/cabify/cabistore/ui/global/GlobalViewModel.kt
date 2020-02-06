@@ -50,9 +50,9 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
     withContext(Dispatchers.IO) {
 
       if (database.get(code) > 0) {
-        if (quantity >= 0) database.updateQuantityStr(code, quantity)
+        if (quantity >= 0){ database.updateQuantityStr(code, quantity)
         discountBuyTwoGetOne(code, quantity)
-        discountBuyThree(code, quantity)
+        discountBuyThree(code, quantity)}
       }
 
     }
@@ -102,7 +102,7 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
         override fun onResponse(call: Call<Products>, response: Response<Products>) {
           if (response.isSuccessful) {
 
-            for (i in 0 until response.body()!!.products.size) {
+            for (i in response.body()!!.products.indices) {
               val code: String = response.body()!!.products[i].code
               val name = response.body()!!.products[i].name
               val price = response.body()!!.products[i].price
