@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 
 import androidx.fragment.app.Fragment
+
 import androidx.lifecycle.Observer
 
 import androidx.lifecycle.ViewModelProviders
@@ -39,7 +40,7 @@ class GlobalFragment : Fragment() {
       }
     })
 
-    binding.imageGraph.bringToFront()
+    //binding.imageGraph.bringToFront()
     binding.lifecycleOwner = this
 
 
@@ -86,7 +87,6 @@ class GlobalFragment : Fragment() {
     })
 
     viewModel.getAccounts()
-
 
 
     return binding.root

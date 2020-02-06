@@ -10,7 +10,7 @@ import com.cabify.cabistore.database.StoreDatabaseDao
 
 class CartViewModel(val database: StoreDatabaseDao, application: Application): AndroidViewModel(application) {
 
-  var sales = database.getAllProducts()
+
 
 
   private val _properties = database.getAllSales()

@@ -27,10 +27,9 @@ private val retrofit = Retrofit.Builder()
 interface APIService {
 
 
-  @GET("4bwec")
+  //@GET("4bwec")
+  @GET("ockai")
   fun readItems(): Call <Products>
-
-
 
 }
 

@@ -28,7 +28,8 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
   val total: MutableLiveData<LiveData<Double>> = _total
   private val tag = GlobalViewModel::class.java.simpleName
 
-  val products = database.getAllProducts()
+  private val _products = database.getAllProducts()
+  val products = _products
 
   private suspend fun insertItem(item: SaleDetail) {
     withContext(Dispatchers.IO) {
@@ -84,6 +85,7 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
       val sale = SaleDetail(code, name, price, quantity)
 
       insertItem(sale)
+
     }
   }
 
