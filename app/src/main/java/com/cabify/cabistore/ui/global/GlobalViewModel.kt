@@ -64,7 +64,7 @@ class GlobalViewModel(val database: StoreDatabaseDao, application: Application) 
     if (code == "VOUCHER" && quantity <= 1) {
       database.deleteItem("DISCOUNT")
 
-    } else if (code == "VOUCHER" && quantity >= 2) {
+    } else if (code == "VOUCHER" && (quantity % 2) == 0) {
       val decimal = (ceil(x = (quantity / 2).toDouble())).toInt()
       addItem("DISCOUNT", "2X1 Discount on Voucher", -5.00, decimal)
     }
